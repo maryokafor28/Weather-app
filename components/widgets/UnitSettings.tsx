@@ -37,7 +37,7 @@ export default function UnitSettings({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="inline-flex items-center gap-1.5 px-2  py-2  shadow-sm bg-card-bg">
+            <button className="inline-flex items-center gap-1.5 px-2  py-2   bg-card-bg">
               <span className="text-sm">Units</span>
               <Image
                 className="cursor-pointer"
