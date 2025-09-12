@@ -1,5 +1,5 @@
 import Topbar from "@/components/common/Topbar";
-export default function Dashboard() {
+export default function Home() {
   return (
     <div>
       <Topbar />
