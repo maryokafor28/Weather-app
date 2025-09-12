@@ -86,17 +86,19 @@ export default function UnitSettings({
             {unit === "metric" ? "Switch to Imperial" : "Switch to Metric"}
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator className="h-[1px] bg-white my-2" />
 
           {/* Temperature */}
           <DropdownMenuLabel>Temperature</DropdownMenuLabel>
           {renderItem("Celsius (°C)", unit === "metric")}
           {renderItem("Fahrenheit (°F)", unit === "imperial")}
+          <DropdownMenuSeparator className="h-[1px] bg-white my-2" />
 
           {/* Wind Speed */}
           <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
           {renderItem("km/h", unit === "metric")}
           {renderItem("mph", unit === "imperial")}
+          <DropdownMenuSeparator className="h-[1px] bg-white my-2" />
 
           {/* Precipitation */}
           <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
