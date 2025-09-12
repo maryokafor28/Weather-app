@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Logo from "@/components/common/logo";
-import IconUnit from "@/assets/images/icon-units.svg?react";
-
+import Logo from "@/components/widgets/logo";
+import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,32 +12,40 @@ import {
 
 type Unit = "imperial" | "metric";
 
-export default function SettingsMenu({
+export default function UnitSettings({
   selected = "imperial",
   onUnitChange,
 }: {
   selected?: Unit;
   onUnitChange?: (u: Unit) => void;
 }) {
-  const [unit, setUnit] = useState<Unit>(selected);
+  const [Unit, setUnit] = useState<Unit>(selected);
 
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex items-center justify-between w-full  ">
       <Logo />
 
-      <div className="flex items-center gap-3">
-        <button
-          aria-label="Settings"
-          className="p-2 rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2"
-        >
-          <IconUnit className="h-6 w-6" />
+      <div className="flex items-center cursor-pointer rounded-md bg-[var(--background-card)] px-2 ">
+        <button aria-label="Settings">
+          <Image
+            src="/images/icon-units.svg"
+            alt="settings"
+            width={15}
+            height={15}
+          />
         </button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md shadow-sm bg-card-bg">
+            <button className="inline-flex items-center gap-1.5 px-2  py-2  shadow-sm bg-card-bg">
               <span className="text-sm">Units</span>
-              <img src="/icon-dropdown.svg" alt="" className="h-4 w-4" />
+              <Image
+                className="cursor-pointer"
+                src="/images/icon-dropdown.svg"
+                alt="dropdown"
+                width={15}
+                height={20}
+              />
             </button>
           </DropdownMenuTrigger>
 
