@@ -33,9 +33,14 @@ export default function UnitSettings({
   const renderItem = (label: string, active: boolean) => (
     <DropdownMenuItem
       disabled
-      className="flex items-center justify-between cursor-default"
+      className={`flex items-center justify-between cursor-default rounded-md px-3 py-2 transition
+        ${
+          active
+            ? "bg-white/10 shadow-xl"
+            : "bg-[var(--background-card)] shadow -xl"
+        }`}
     >
-      <span>{label}</span>
+      <span className="text-md font-medium">{label}</span>
       {active && (
         <Image
           src="/images/icon-checkmark.svg"
@@ -53,7 +58,7 @@ export default function UnitSettings({
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-1.5 rounded-md bg-[var(--background-card)] px-3 py-2 focus:outline-none">
+          <button className="flex items-center gap-1.5 rounded-md bg-[var(--background-card)] px-3 py-2 shadow focus:outline-none focus:ring-1 focus:ring-offset-1 ">
             <Image
               src="/images/icon-units.svg"
               alt="units"
@@ -73,7 +78,7 @@ export default function UnitSettings({
         <DropdownMenuContent
           align="end"
           sideOffset={8}
-          className="w-52 bg-[var(--background-card)]"
+          className="w-55 rounded-md border-0 shadow-lg  space-y-1 bg-[var(--background-card)]"
         >
           {/* Toggle Button - prevent auto close */}
           <DropdownMenuItem
@@ -81,25 +86,31 @@ export default function UnitSettings({
               e.preventDefault();
               toggleSystem();
             }}
-            className="cursor-pointer font-medium"
+            className="cursor-pointer font-lg focus:outline-none focus:ring-1 focus:ring-offset-1 border-px-3 py-2 hover:bg-muted/40 rounded-lg"
           >
             {unit === "metric" ? "Switch to Imperial" : "Switch to Metric"}
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
-
           {/* Temperature */}
-          <DropdownMenuLabel>Temperature</DropdownMenuLabel>
+          <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
+            Temperature
+          </DropdownMenuLabel>
           {renderItem("Celsius (°C)", unit === "metric")}
           {renderItem("Fahrenheit (°F)", unit === "imperial")}
+          <DropdownMenuSeparator className="h-[1px] bg-muted mx-1" />
 
           {/* Wind Speed */}
-          <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
+          <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
+            Wind Speed
+          </DropdownMenuLabel>
           {renderItem("km/h", unit === "metric")}
           {renderItem("mph", unit === "imperial")}
+          <DropdownMenuSeparator className="h-[1px] bg-muted mx-1 my-2" />
 
           {/* Precipitation */}
-          <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
+          <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
+            Precipitation
+          </DropdownMenuLabel>
           {renderItem("Millimeters (mm)", unit === "metric")}
           {renderItem("Inches (in)", unit === "imperial")}
         </DropdownMenuContent>
