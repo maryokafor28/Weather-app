@@ -23,7 +23,7 @@ export default function WeatherCard({
   return (
     <div
       className={cn(
-        "relative w-full max-w-xl rounded-2xl overflow-hidden shadow-lg text-white min-h-[200px]", // Added min-height
+        "relative w-full rounded-2xl overflow-hidden shadow-lg min-h-[250px]", // Added min-height
         className
       )}
     >

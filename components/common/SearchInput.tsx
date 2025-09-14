@@ -17,14 +17,16 @@ export default function Search() {
   };
 
   return (
-    <section className="flex flex-col items-center text-center space-y-6 py-12">
+    <section className="flex flex-col  items-center text-center space-y-6 py-6">
       {/* Heading */}
-      <h1 className="text-3xl md:text-4xl font-bold">
-        How’s the sky looking today?
-      </h1>
+      <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl">
+        <h1 className="text-3xl md:text-5xl font-bold">
+          How’s the sky looking today?
+        </h1>
+      </div>
 
       {/* Search bar */}
-      <div className="flex w-full max-w-md items-center space-x-2">
+      <div className="flex w-full max-w-xl items-center space-x-2">
         <div className="relative flex-1">
           {/* Icon inside input */}
           <Image
@@ -45,7 +47,7 @@ export default function Search() {
         <Button
           onClick={handleSearch}
           variant={"default"}
-          className="focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="focus:outline-none focus:ring-2 focus:ring-blue-700"
         >
           Search
         </Button>

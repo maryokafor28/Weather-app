@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function WeatherPage() {
   return (
-    <main className="flex justify-center py-10">
+    <main className="flex justify-center">
       <HeroCard
         location="Berlin, Germany"
         date="Tuesday, Aug 5, 2025"
@@ -17,7 +17,7 @@ export default function WeatherPage() {
             className="h-16 w-16"
           />
         }
-        backgroundImage="/images/weather-bg.png" // put your blue bg image in /public/images
+        backgroundImage="/images/bg-today-large.svg" // put your blue bg image in /public/images
       />
     </main>
   );
