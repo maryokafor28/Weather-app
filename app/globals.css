@@ -6,6 +6,7 @@
 
   --foreground: hsl(0, 0%, 100%); /* main text = white */
   --muted: hsl(240, 6%, 70%); /* secondary text = light gray */
+  --neutral-600: hsl(243, 23%, 30%);
 
   --font-body: "DM Sans", sans-serif;
   --font-heading: "Bricolage Grotesque", sans-serif;

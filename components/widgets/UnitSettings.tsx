@@ -78,7 +78,7 @@ export default function UnitSettings({
         <DropdownMenuContent
           align="end"
           sideOffset={8}
-          className="w-55 rounded-md border-0 shadow-lg  space-y-1 bg-[var(--background-card)]"
+          className="w-55 rounded-xl  border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)]  space-y-1 bg-[var(--background-card)]"
         >
           {/* Toggle Button - prevent auto close */}
           <DropdownMenuItem
