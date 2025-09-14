@@ -1,5 +1,11 @@
 import Topbar from "@/components/common/Topbar";
-export default function Home() {
+import Search from "@/components/common/SearchInput";
+import WeatherPage from "@/components/common/Weather";
+import WeatherStats from "@/components/common/WeatherStat";
+import ForecastPage from "@/components/common/Forecast";
+import HourlyForecast from "@/components/common/HourlyForecast";
+
+export default function Dashboard() {
   return (
     <div className="min-h-screen px-6 py-6">
       {/* Topbar */}
