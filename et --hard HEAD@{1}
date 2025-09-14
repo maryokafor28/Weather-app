@@ -1,0 +1,40 @@
+[33mad226a7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: checkout: moving from dev to main
+[33mee0f529[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{1}: commit: Dashboard UI
+[33me4d35c9[m HEAD@{2}: commit: Weather-cards
+[33m1ceb676[m HEAD@{3}: commit: dropdwon seperator
+[33m3040da5[m HEAD@{4}: checkout: moving from main to dev
+[33mad226a7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{5}: commit (merge): Merge branch 'dev'
+[33mc321464[m HEAD@{6}: commit: home page error
+[33m8f1f311[m HEAD@{7}: checkout: moving from dev to main
+[33m3040da5[m HEAD@{8}: commit: added unit dropdown
+[33m8f1f311[m HEAD@{9}: merge origin/main: Fast-forward
+[33m1972545[m HEAD@{10}: checkout: moving from dev to dev
+[33m1972545[m HEAD@{11}: checkout: moving from main to dev
+[33m8f1f311[m HEAD@{12}: commit: topbar
+[33m8f8cc91[m HEAD@{13}: commit: topbar
+[33m1fb8577[m HEAD@{14}: checkout: moving from main to main
+[33m1fb8577[m HEAD@{15}: commit: project set up, added shadcn component and topbar UI
+[33m1972545[m HEAD@{16}: Branch: renamed refs/heads/master to refs/heads/main
+[33m1972545[m HEAD@{18}: checkout: moving from dev to master
+[33m1972545[m HEAD@{19}: checkout: moving from master to dev
+[33m1972545[m HEAD@{20}: commit (initial): Initial commit from Create Next App
+[33mad226a7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: checkout: moving from dev to main
+[33mee0f529[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m HEAD@{1}: commit: Dashboard UI
+[33me4d35c9[m HEAD@{2}: commit: Weather-cards
+[33m1ceb676[m HEAD@{3}: commit: dropdwon seperator
+[33m3040da5[m HEAD@{4}: checkout: moving from main to dev
+[33mad226a7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{5}: commit (merge): Merge branch 'dev'
+[33mc321464[m HEAD@{6}: commit: home page error
+[33m8f1f311[m HEAD@{7}: checkout: moving from dev to main
+[33m3040da5[m HEAD@{8}: commit: added unit dropdown
+[33m8f1f311[m HEAD@{9}: merge origin/main: Fast-forward
+[33m1972545[m HEAD@{10}: checkout: moving from dev to dev
+[33m1972545[m HEAD@{11}: checkout: moving from main to dev
+[33m8f1f311[m HEAD@{12}: commit: topbar
+[33m8f8cc91[m HEAD@{13}: commit: topbar
+[33m1fb8577[m HEAD@{14}: checkout: moving from main to main
+[33m1fb8577[m HEAD@{15}: commit: project set up, added shadcn component and topbar UI
+[33m1972545[m HEAD@{16}: Branch: renamed refs/heads/master to refs/heads/main
+[33m1972545[m HEAD@{18}: checkout: moving from dev to master
+[33m1972545[m HEAD@{19}: checkout: moving from master to dev
+[33m1972545[m HEAD@{20}: commit (initial): Initial commit from Create Next App
