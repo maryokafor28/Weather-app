@@ -20,13 +20,20 @@ export default function Search() {
     <section className="flex flex-col  items-center text-center space-y-6 py-6">
       {/* Heading */}
       <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl">
-        <h1 className="text-3xl md:text-5xl font-bold">
+        {/* Mobile (stacked) */}
+        <h1 className="block sm:hidden text-7xl font-bold leading-tight max-w-2xl-auto">
+          How’s the <br />
+          sky looking <br />
+          today?
+        </h1>
+        {/* Desktop */}
+        <h1 className=" hidden sm:block text-3xl md:text-5xl font-bold leading-tight">
           How’s the sky looking today?
         </h1>
       </div>
 
       {/* Search bar */}
-      <div className="flex w-full max-w-xl items-center space-x-2">
+      <div className="flex flex-col w-full max-w-xl space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:space-x-2">
         <div className="relative flex-1">
           {/* Icon inside input */}
           <Image
@@ -41,13 +48,13 @@ export default function Search() {
             placeholder="Search for a place..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 bg-[var(--background-card)] focus:ring-1"
+            className="pl-10 bg-[var(--background-card)] focus:ring-1 h-10"
           />
         </div>
         <Button
           onClick={handleSearch}
           variant={"default"}
-          className="focus:outline-none focus:ring-2 focus:ring-blue-700"
+          className="focus:outline-none focus:ring-2 focus:ring-blue-700 h-10"
         >
           Search
         </Button>

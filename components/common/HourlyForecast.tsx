@@ -10,16 +10,16 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import HourlyRow from "@/components/widgets/HourlyRow";
-
+import Image from "next/image";
 // mock data for now (replace with API later)
 const hourlyData = [
-  { time: "3 PM", temperature: 18 },
-  { time: "4 PM", temperature: 20 },
-  { time: "5 PM", temperature: 22 },
-  { time: "6 PM", temperature: 23 },
-  { time: "7 PM", temperature: 24 },
-  { time: "8 PM", temperature: 24 },
-  { time: "9 PM", temperature: 24 },
+  { time: "3 PM", temperature: 18, icon: "/images/icon-overcast.webp" },
+  { time: "4 PM", temperature: 20, icon: "/images/icon-partly-cloudy.webp" },
+  { time: "5 PM", temperature: 22, icon: "/images/icon-sunny.webp" },
+  { time: "6 PM", temperature: 23, icon: "/images/icon-partly-cloudy.webp" },
+  { time: "7 PM", temperature: 24, icon: "/images/icon-snow.webp" },
+  { time: "8 PM", temperature: 24, icon: "/images/icon-fog.webp" },
+  { time: "9 PM", temperature: 24, icon: "/images/icon-partly-cloudy.webp" },
 ];
 
 // days of the week
@@ -66,8 +66,8 @@ export default function HourlyForecast() {
             <SelectValue placeholder="Select Day" />
           </SelectTrigger>
           <SelectContent
-            align="start" // 👈 aligns to the left edge of the trigger
-            side="bottom" // optional, makes sure it always opens downward
+            align="end"
+            sideOffset={8}
             className="w-55 bg-[var(--background-card)] border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)] space-y-1"
           >
             {days.map((day) => renderItem(day, selectedDay === day))}
@@ -80,7 +80,14 @@ export default function HourlyForecast() {
         {hourlyData.map((item, i) => (
           <HourlyRow
             key={i}
-            icon={<span>☀️</span>}
+            icon={
+              <Image
+                src={item.icon}
+                alt={`${item.time} icon`}
+                width={24}
+                height={24}
+              />
+            }
             time={item.time}
             temperature={item.temperature}
           />

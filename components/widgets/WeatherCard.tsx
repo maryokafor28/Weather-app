@@ -28,15 +28,27 @@ export default function WeatherCard({
       )}
     >
       {/* Background image */}
-      <Image
-        // src={backgroundImage} // Using the prop now
-        src="/images/bg-today-large.svg"
-        alt="Weather background"
-        fill
-        priority
-        className="object-cover object-center" // Added object-center for better positioning
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Added sizes for better performance
-      />
+      <>
+        {/* Mobile image */}
+        <Image
+          src="/images/bg-today-small.svg"
+          alt="Weather background small"
+          fill
+          priority
+          className="object-cover object-center sm:hidden"
+          sizes="100vw"
+        />
+
+        {/* Desktop image */}
+        <Image
+          src="/images/bg-today-large.svg"
+          alt="Weather background large"
+          fill
+          priority
+          className="object-cover object-center hidden sm:block"
+          sizes="100vw"
+        />
+      </>
       {/* <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30 z-[1]" /> */}
 
       {/* Content */}

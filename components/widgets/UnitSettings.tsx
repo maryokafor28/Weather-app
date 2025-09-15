@@ -37,10 +37,10 @@ export default function UnitSettings({
         ${
           active
             ? "bg-white/10 shadow-xl"
-            : "bg-[var(--background-card)] shadow -xl"
+            : "bg-[var(--background-card)] shadow-xl"
         }`}
     >
-      <span className="text-md font-medium">{label}</span>
+      <span className="text-sm sm:text-md font-medium">{label}</span>
       {active && (
         <Image
           src="/images/icon-checkmark.svg"
@@ -58,14 +58,14 @@ export default function UnitSettings({
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-1.5 rounded-md bg-[var(--background-card)] px-3 py-2 shadow focus:outline-none focus:ring-1 focus:ring-offset-1 ">
+          <button className="flex items-center gap-1 sm:gap-1.5 rounded-md bg-[var(--background-card)] px-2 sm:px-3 py-2 shadow focus:outline-none focus:ring-1 focus:ring-offset-1">
             <Image
               src="/images/icon-units.svg"
               alt="units"
               width={16}
               height={16}
             />
-            <span className="text-sm">Units</span>
+            <span className="text-xs sm:text-sm">Units</span>
             <Image
               src="/images/icon-dropdown.svg"
               alt="dropdown"
@@ -78,7 +78,7 @@ export default function UnitSettings({
         <DropdownMenuContent
           align="end"
           sideOffset={8}
-          className="w-55 rounded-xl  border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)]  space-y-1 bg-[var(--background-card)]"
+          className="w-48 sm:w-55 rounded-xl border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)] space-y-1 bg-[var(--background-card)]"
         >
           {/* Toggle Button - prevent auto close */}
           <DropdownMenuItem
@@ -86,9 +86,14 @@ export default function UnitSettings({
               e.preventDefault();
               toggleSystem();
             }}
-            className="cursor-pointer font-lg focus:outline-none focus:ring-1 focus:ring-offset-1 border-px-3 py-2 hover:bg-muted/40 rounded-lg"
+            className="cursor-pointer text-sm sm:text-base focus:outline-none focus:ring-1 focus:ring-offset-1 px-3 py-2 hover:bg-muted/40 rounded-lg"
           >
-            {unit === "metric" ? "Switch to Imperial" : "Switch to Metric"}
+            <span className="hidden sm:inline">
+              {unit === "metric" ? "Switch to Imperial" : "Switch to Metric"}
+            </span>
+            <span className="sm:hidden">
+              {unit === "metric" ? "Switch to Imperial" : "Switch to Metric"}
+            </span>
           </DropdownMenuItem>
 
           {/* Temperature */}
@@ -97,7 +102,7 @@ export default function UnitSettings({
           </DropdownMenuLabel>
           {renderItem("Celsius (°C)", unit === "metric")}
           {renderItem("Fahrenheit (°F)", unit === "imperial")}
-          <DropdownMenuSeparator className="h-[1px] bg-muted mx-1" />
+          <DropdownMenuSeparator className="h-[1px] bg-muted/15 mx-1" />
 
           {/* Wind Speed */}
           <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
@@ -105,7 +110,7 @@ export default function UnitSettings({
           </DropdownMenuLabel>
           {renderItem("km/h", unit === "metric")}
           {renderItem("mph", unit === "imperial")}
-          <DropdownMenuSeparator className="h-[1px] bg-muted mx-1 my-2" />
+          <DropdownMenuSeparator className="h-[1px] bg-muted/15 mx-1 my-2" />
 
           {/* Precipitation */}
           <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
