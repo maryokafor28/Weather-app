@@ -53,7 +53,7 @@ export default function HourlyForecast() {
   );
 
   return (
-    <Card className="w-[360px] h-full flex flex-col bg-[var(--background-card)]">
+    <Card className="w-full md:w-[340px]  h-full flex flex-col bg-[var(--background-card)] mt-8 md:mt-0 ">
       {/* Header */}
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-base font-semibold whitespace-nowrap">
@@ -62,7 +62,7 @@ export default function HourlyForecast() {
 
         {/* Day selector */}
         <Select value={selectedDay} onValueChange={setSelectedDay}>
-          <SelectTrigger className="w-[140px] bg-[#3c3a5e] text-white rounded-md px-4 py-2 shadow-md cursor-pointer hover:opacity-90">
+          <SelectTrigger className="w-[140px] bg-[#3c3a5e] rounded-md px-4 py-2 shadow-md cursor-pointer hover:opacity-90">
             <SelectValue placeholder="Select Day" />
           </SelectTrigger>
           <SelectContent
@@ -76,7 +76,7 @@ export default function HourlyForecast() {
       </CardHeader>
 
       {/* Scrollable content */}
-      <CardContent className="overflow-y-auto">
+      <CardContent className="relative max-h-[400px] overflow-y-auto no-scrollbar">
         {hourlyData.map((item, i) => (
           <HourlyRow
             key={i}
@@ -92,6 +92,7 @@ export default function HourlyForecast() {
             temperature={item.temperature}
           />
         ))}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[var(--background-card)] to-transparent" />
       </CardContent>
     </Card>
   );

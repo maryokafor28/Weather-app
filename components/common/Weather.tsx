@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function WeatherPage() {
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center w-full">
       <HeroCard
         location="Berlin, Germany"
         date="Tuesday, Aug 5, 2025"

@@ -15,6 +15,14 @@
   --accent-blue-dark: hsl(248, 70%, 36%);
   --accent-orange: hsl(28, 100%, 52%);
 }
+/* globals.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE + Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 @theme inline {
   --color-background: var(--background);

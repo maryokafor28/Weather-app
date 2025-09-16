@@ -16,9 +16,9 @@ type DailyForecastProps = {
 
 export default function DailyForecast({ forecast }: DailyForecastProps) {
   return (
-    <section className="w-full mx-auto">
+    <section className="w-full mx-auto ">
       <div className="text-muted-foreground text-sm py-2">Daily forecast</div>
-      <div className="grid grid-cols-7 gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-7 gap-4 sm:gap-2">
         {forecast.map((item, i) => (
           <CardContent
             key={i}
@@ -29,7 +29,7 @@ export default function DailyForecast({ forecast }: DailyForecastProps) {
               shadow-[0_8px_30px_hsl(240,6%,90%/0.3)] 
               rounded-xl 
               flex flex-col items-center justify-between 
-              w-[90px] h-[140px]   
+        w-full h-[180px] md:h-[140px] 
               p-4
             "
           >
@@ -45,7 +45,7 @@ export default function DailyForecast({ forecast }: DailyForecastProps) {
             />
 
             {/* Temps */}
-            <div className="flex justify-between gap-4 text-xs">
+            <div className="flex justify-between gap-8 text-xs">
               <span>{item.minTemp}°</span>
               <span className="font-semibold">{item.maxTemp}°</span>
             </div>

@@ -15,9 +15,9 @@ export default function Dashboard() {
       <Search />
 
       {/* Main content */}
-      <div className="max-w-7xl mx-auto mt-8 flex flex-col lg:flex-row lg:space-x-4 pl-12">
+      <div className="max-w-7xl mx-auto mt-8 flex flex-col lg:flex-row lg:space-x-4 lg:pl-12">
         {/* Left column */}
-        <div className="flex-1 space-y-2 max-w-3xl">
+        <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
           <WeatherPage />
           <WeatherStats />
           <ForecastPage />

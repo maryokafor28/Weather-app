@@ -21,10 +21,8 @@ export default function Search() {
       {/* Heading */}
       <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl">
         {/* Mobile (stacked) */}
-        <h1 className="block sm:hidden text-7xl font-bold leading-tight max-w-2xl-auto">
-          How’s the <br />
-          sky looking <br />
-          today?
+        <h1 className="block sm:hidden text-7xl font-bold leading-tight max-w-[12ch] mx-auto">
+          How’s the sky looking today?
         </h1>
         {/* Desktop */}
         <h1 className=" hidden sm:block text-3xl md:text-5xl font-bold leading-tight">

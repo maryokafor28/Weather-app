@@ -23,31 +23,33 @@ export default function WeatherCard({
   return (
     <div
       className={cn(
-        "relative w-full rounded-2xl overflow-hidden shadow-lg min-h-[250px]", // Added min-height
+        "relative w-full rounded-2xl overflow-hidden min-h-[350px] sm:min-h-[250px]", // Added min-height
         className
       )}
     >
       {/* Background image */}
       <>
         {/* Mobile image */}
-        <Image
-          src="/images/bg-today-small.svg"
-          alt="Weather background small"
-          fill
-          priority
-          className="object-cover object-center sm:hidden"
-          sizes="100vw"
-        />
+        <div className="absolute inset-0">
+          <Image
+            src="/images/bg-today-small.svg"
+            alt="Weather background small"
+            fill
+            priority
+            className="object-cover object-center sm:hidden "
+            sizes="100vw"
+          />
 
-        {/* Desktop image */}
-        <Image
-          src="/images/bg-today-large.svg"
-          alt="Weather background large"
-          fill
-          priority
-          className="object-cover object-center hidden sm:block"
-          sizes="100vw"
-        />
+          {/* Desktop image */}
+          <Image
+            src="/images/bg-today-large.svg"
+            alt="Weather background large"
+            fill
+            priority
+            className="object-cover object-center hidden sm:block"
+            sizes="100vw"
+          />
+        </div>
       </>
       {/* <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30 z-[1]" /> */}
 
