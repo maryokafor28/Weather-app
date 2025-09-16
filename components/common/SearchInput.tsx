@@ -1,3 +1,4 @@
+// components/HeroSection.tsx
 "use client";
 
 import { useState } from "react";
@@ -5,54 +6,37 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-type WeatherData = {
-  location: string;
-  temp: number;
-  wind: number;
-};
-
 export default function Search() {
   const [query, setQuery] = useState("");
-  const [weather, setWeather] = useState<WeatherData | null>(null);
 
-  const handleSearch = async () => {
+  const handleSearch = () => {
     if (!query.trim()) return;
 
-    try {
-      const geoRes = await fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-          query
-        )}`
-      );
-      const geoData = await geoRes.json();
-
-      if (!geoData.results || geoData.results.length === 0) {
-        alert("City not found!");
-        return;
-      }
-
-      const { latitude, longitude, name, country } = geoData.results[0];
-
-      const weatherRes = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&timezone=auto`
-      );
-      const weatherData = await weatherRes.json();
-
-      setWeather({
-        location: `${name}, ${country}`,
-        temp: weatherData.current_weather.temperature,
-        wind: weatherData.current_weather.windspeed,
-      });
-    } catch (error) {
-      console.error("Error fetching weather:", error);
-    }
+    // ✅ Later you’ll connect this to your weather API
+    console.log("Searching weather for:", query);
   };
 
   return (
-    <section className="flex flex-col items-center text-center space-y-6 py-6">
+    <section className="flex flex-col  items-center text-center space-y-6 py-6">
+      {/* Heading */}
+      <div className="max-w-2xl md:max-w-4xl lg:max-w-5xl">
+        {/* Mobile (stacked) */}
+        <h1 className="block sm:hidden text-5xl font-bold leading-tight mx-auto">
+          How’s the
+          <br />
+          sky looking <br />
+          today?
+        </h1>
+        {/* Desktop */}
+        <h1 className=" hidden sm:block text-3xl md:text-5xl font-bold leading-tight">
+          How’s the sky looking today?
+        </h1>
+      </div>
+
       {/* Search bar */}
       <div className="flex flex-col w-full max-w-xl space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:space-x-2">
         <div className="relative flex-1">
+          {/* Icon inside input */}
           <Image
             src="/images/icon-search.svg"
             alt="Search icon"
@@ -76,15 +60,6 @@ export default function Search() {
           Search
         </Button>
       </div>
-
-      {/* Weather result */}
-      {weather && (
-        <div className="mt-6 p-4 rounded-lg bg-[var(--background-card)] shadow">
-          <h2 className="font-semibold">{weather.location}</h2>
-          <p>🌡️ Temperature: {weather.temp} °C</p>
-          <p>💨 Wind: {weather.wind} km/h</p>
-        </div>
-      )}
     </section>
   );
 }
