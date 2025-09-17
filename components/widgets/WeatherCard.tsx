@@ -22,7 +22,8 @@ export default function WeatherCard({
   return (
     <div
       className={cn(
-        "relative w-full rounded-xl overflow-hidden min-h-[350px] sm:min-h-[250px]",
+        // taller height on mobile, shorter on sm+ screens
+        "relative w-full rounded-2xl overflow-hidden shadow-lg min-h-[72vh] sm:min-h-[250px]", // Added min-height
         className
       )}
     >
@@ -34,7 +35,7 @@ export default function WeatherCard({
           alt="Weather background small"
           fill
           priority
-          className="object-contain sm:hidden" // no cropping on mobile
+          className="object-cover sm:hidden"
           sizes="100vw"
         />
 
@@ -53,9 +54,7 @@ export default function WeatherCard({
       <div
         className={cn(
           "relative z-10 h-full p-6 min-h-[200px]",
-          // mobile = column + centered
           "flex flex-col items-center justify-center text-center space-y-4",
-          // desktop = row with space between
           "sm:flex-row sm:justify-between sm:items-center sm:text-left sm:space-y-0"
         )}
       >

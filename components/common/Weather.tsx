@@ -17,7 +17,6 @@ export default function WeatherPage() {
             className="h-16 w-16"
           />
         }
-        backgroundImage="/images/bg-today-large.svg" // put your blue bg image in /public/images
       />
     </main>
   );
