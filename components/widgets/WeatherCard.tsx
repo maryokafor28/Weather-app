@@ -59,9 +59,11 @@ export default function WeatherCard({
         )}
       >
         {/* Location + Date */}
-        <div className="mb-15 sm:mb-0">
-          <h2 className="text-2xl font-semibold drop-shadow-sm">{location}</h2>
-          <p className="text-sm drop-shadow-sm">{date}</p>
+        <div className="mb-20 sm:mb-0">
+          <h2 className="text-4xl font-semibold drop-shadow-sm leading-loose">
+            {location}
+          </h2>
+          <p className="text-md drop-shadow-sm">{date}</p>
         </div>
 
         {/* Temperature + Icon */}

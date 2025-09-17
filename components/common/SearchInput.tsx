@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // 👈 for navigation
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -18,6 +19,7 @@ export default function Search() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<CityResult[]>([]);
   const [selectedCity, setSelectedCity] = useState<CityResult | null>(null);
+  const router = useRouter();
 
   const handleInput = async (value: string) => {
     setQuery(value);
@@ -41,16 +43,25 @@ export default function Search() {
   };
 
   const handleSelect = (city: CityResult) => {
-    setSelectedCity(city); // track selection
-
-    setQuery(city.name); // 👈 only show city name in input
+    setSelectedCity(city);
+    setQuery(city.name); // only show city name in input
     setResults([]); // hide dropdown
-    console.log("Selected city:", city);
   };
 
   const handleSearch = () => {
-    if (!query.trim()) return;
-    console.log("Searching weather for:", query);
+    if (!selectedCity) {
+      alert("Please select a city from the list");
+      return;
+    }
+
+    // Navigate to /weather with city info in query string
+    router.push(
+      `/?lat=${selectedCity.latitude}&lon=${
+        selectedCity.longitude
+      }&name=${encodeURIComponent(
+        selectedCity.name
+      )}&country=${encodeURIComponent(selectedCity.country)}`
+    );
   };
 
   return (
@@ -92,14 +103,14 @@ export default function Search() {
               {results.slice(0, 4).map((city) => (
                 <li
                   key={city.id}
-                  className={`px-2 py-2 text-left cursor-pointer  rounded-lg ${
+                  className={`px-2 py-2 text-left cursor-pointer rounded-lg ${
                     selectedCity?.id === city.id
-                      ? "bg-[#2f2f49] shadow-[0_8px_25px_hsl(240,6%,90%/0.6)] border border-[var(--muted)]/15 backdrop-blur-xl  "
+                      ? "bg-[#2f2f49] shadow-[0_8px_25px_hsl(240,6%,90%/0.6)] border border-[var(--muted)]/15 backdrop-blur-xl"
                       : "bg-[var(--background-card)] shadow-xl"
                   }`}
                   onClick={() => handleSelect(city)}
                 >
-                  {city.name}
+                  {city.name}, {city.country}
                 </li>
               ))}
             </ul>
