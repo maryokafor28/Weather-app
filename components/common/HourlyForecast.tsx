@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -10,50 +10,40 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import HourlyRow from "@/components/widgets/HourlyRow";
-import Image from "next/image";
-// mock data for now (replace with API later)
-const hourlyData = [
-  { time: "3 PM", temperature: 18, icon: "/images/icon-overcast.webp" },
-  { time: "4 PM", temperature: 20, icon: "/images/icon-partly-cloudy.webp" },
-  { time: "5 PM", temperature: 22, icon: "/images/icon-sunny.webp" },
-  { time: "6 PM", temperature: 23, icon: "/images/icon-partly-cloudy.webp" },
-  { time: "7 PM", temperature: 24, icon: "/images/icon-snow.webp" },
-  { time: "8 PM", temperature: 24, icon: "/images/icon-fog.webp" },
-  { time: "9 PM", temperature: 24, icon: "/images/icon-partly-cloudy.webp" },
-];
-
-// days of the week
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+import WeatherIcon from "@/components/widgets/WeatherIcon";
+import { getWeather, HourlyForecastItem, ForecastDayRaw } from "@/lib/services";
 
 export default function HourlyForecast() {
-  const [selectedDay, setSelectedDay] = useState<string>("Tuesday");
+  const [selectedDay, setSelectedDay] = useState<string>("");
+  const [days, setDays] = useState<ForecastDayRaw[]>([]);
+  const [hourly, setHourly] = useState<HourlyForecastItem[]>([]);
 
-  // helper for consistent styling
-  const renderItem = (label: string, active: boolean) => (
-    <SelectItem
-      key={label}
-      value={label}
-      className={`flex items-center justify-between cursor-default rounded-md px-3 py-2 transition
-        ${
-          active
-            ? "bg-white/10 shadow-xl"
-            : "bg-[var(--background-card)] shadow-xl"
-        }`}
-    >
-      <span className="text-md font-medium">{label}</span>
-    </SelectItem>
-  );
+  useEffect(() => {
+    (async () => {
+      try {
+        const { forecast, hourly } = await getWeather("52.52", "13.41"); // Berlin
+        setDays(forecast);
+        setHourly(hourly);
+
+        // default: today
+        if (forecast.length > 0) setSelectedDay(forecast[0].day);
+      } catch (err) {
+        console.error("Weather fetch failed:", err);
+      }
+    })();
+  }, []);
+
+  // Filter hourly by selected day
+  const filteredHourly = hourly.filter((h) => {
+    if (!selectedDay) return false;
+    const day = new Date(h.time).toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+    return day === selectedDay;
+  });
 
   return (
-    <Card className="w-full md:w-[340px]  h-full flex flex-col bg-[var(--background-card)] mt-8 md:mt-0 ">
+    <Card className="w-full md:w-[340px] h-full flex flex-col bg-[var(--background-card)] mt-8 md:mt-0">
       {/* Header */}
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-base font-semibold whitespace-nowrap">
@@ -70,25 +60,25 @@ export default function HourlyForecast() {
             sideOffset={8}
             className="w-55 bg-[var(--background-card)] border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)] space-y-1"
           >
-            {days.map((day) => renderItem(day, selectedDay === day))}
+            {days.map((d) => (
+              <SelectItem key={d.day} value={d.day}>
+                {d.day}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </CardHeader>
 
       {/* Scrollable content */}
       <CardContent className="relative max-h-[400px] overflow-y-auto no-scrollbar">
-        {hourlyData.map((item, i) => (
+        {filteredHourly.map((item, i) => (
           <HourlyRow
             key={i}
-            icon={
-              <Image
-                src={item.icon}
-                alt={`${item.time} icon`}
-                width={24}
-                height={24}
-              />
-            }
-            time={item.time}
+            icon={<WeatherIcon code={item.weathercode} size={24} />}
+            time={new Date(item.time).toLocaleTimeString("en-US", {
+              hour: "numeric",
+              hour12: true,
+            })}
             temperature={item.temperature}
           />
         ))}

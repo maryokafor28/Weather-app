@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { CardContent } from "@/components/ui/card";
+import WeatherIcon from "@/components/widgets/WeatherIcon"; // reuse the icon mapping
 
 type ForecastDay = {
-  day: string; // e.g. "Mon"
-  icon: string; // path to weather icon
+  day: string;
+  weathercode: number; // use weathercode, not "icon"
   minTemp: number;
   maxTemp: number;
 };
@@ -16,7 +16,7 @@ type DailyForecastProps = {
 
 export default function DailyForecast({ forecast }: DailyForecastProps) {
   return (
-    <section className="w-full mx-auto ">
+    <section className="w-full mx-auto">
       <div className="text-muted-foreground text-sm py-2">Daily forecast</div>
       <div className="grid grid-cols-3 md:grid-cols-7 gap-4 sm:gap-2">
         {forecast.map((item, i) => (
@@ -29,7 +29,7 @@ export default function DailyForecast({ forecast }: DailyForecastProps) {
               shadow-[0_8px_30px_hsl(240,6%,90%/0.3)] 
               rounded-xl 
               flex flex-col items-center justify-between 
-        w-full h-[180px] md:h-[140px] 
+              w-full h-[180px] md:h-[140px] 
               p-4
             "
           >
@@ -37,11 +37,10 @@ export default function DailyForecast({ forecast }: DailyForecastProps) {
             <p className="text-sm font-medium">{item.day}</p>
 
             {/* Weather Icon */}
-            <Image
-              src={item.icon}
+            <WeatherIcon
+              code={item.weathercode}
+              size={36}
               alt={`${item.day} forecast`}
-              width={36}
-              height={36}
             />
 
             {/* Temps */}

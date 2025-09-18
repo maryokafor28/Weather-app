@@ -2,8 +2,6 @@ import { Suspense } from "react";
 import Topbar from "@/components/common/Topbar";
 import Search from "@/components/common/SearchInput";
 import WeatherPage from "@/components/common/Weather";
-import WeatherStats from "@/components/common/WeatherStat";
-import ForecastPage from "@/components/common/Forecast";
 import HourlyForecast from "@/components/common/HourlyForecast";
 
 export default function Dashboard() {
@@ -22,9 +20,6 @@ export default function Dashboard() {
           <Suspense fallback={<p className="text-white">Loading weather...</p>}>
             <WeatherPage />
           </Suspense>
-
-          <WeatherStats />
-          <ForecastPage />
         </div>
 
         {/* Right column */}

@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import HeroCard from "@/components/widgets/WeatherCard";
-import Image from "next/image";
-
-type WeatherData = {
-  temperature: number;
-  weathercode: number;
-  time: string;
-};
+import WeatherStats from "@/components/common/WeatherStat";
+import DailyForecast from "@/components/widgets/DailyForecastCard"; // expects items with weathercode
+import WeatherIcon from "@/components/widgets/WeatherIcon"; // optional
+import {
+  getWeather,
+  type WeatherData,
+  type ForecastDayRaw,
+} from "@/lib/services";
 
 export default function WeatherPage() {
   const searchParams = useSearchParams();
@@ -19,63 +20,67 @@ export default function WeatherPage() {
   const country = searchParams.get("country");
 
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [forecast, setForecast] = useState<ForecastDayRaw[] | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!lat || !lon) return;
 
-    const fetchWeather = async () => {
-      try {
-        const res = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
-        );
-        const data = await res.json();
-        setWeather(data.current_weather);
-      } catch (error) {
-        console.error("Weather fetch error:", error);
-      }
-    };
+    let mounted = true;
+    setLoading(true);
 
-    fetchWeather();
+    getWeather(lat, lon)
+      .then(({ current, forecast }) => {
+        if (!mounted) return;
+        setWeather(current);
+        setForecast(forecast);
+      })
+      .catch((err) => {
+        console.error("getWeather error:", err);
+      })
+      .finally(() => mounted && setLoading(false));
+
+    return () => {
+      mounted = false;
+    };
   }, [lat, lon]);
 
-  // helper: map weathercode to icon
-  const getWeatherIcon = (code: number) => {
-    if (code === 0) return "/images/icon-sunny.webp";
-    if (code >= 1 && code <= 3) return "/images/icon-partly-cloudy.webp";
-    if (code === 45 || code === 48) return "/images/icon-fog.webp";
-    if (code >= 51 && code <= 57) return "/images/icon-drizzle.webp";
-    if ((code >= 61 && code <= 67) || (code >= 80 && code <= 82))
-      return "/images/icon-rain.webp";
-    if ((code >= 71 && code <= 77) || code === 85 || code === 86)
-      return "/images/icon-snow.webp";
-    if (code >= 95) return "/images/icon-storm.webp";
-    return "/images/icon-cloudy.webp"; // fallback
-  };
-
   return (
-    <main className="flex justify-center w-full">
-      {weather ? (
-        <HeroCard
-          location={`${name}, ${country}`}
-          date={new Date(weather.time).toLocaleDateString("en-US", {
-            weekday: "long",
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
-          temperature={Math.round(weather.temperature)}
-          icon={
-            <Image
-              src={getWeatherIcon(weather.weathercode)}
-              alt="Weather Icon"
-              width={64}
-              height={64}
-              className="h-16 w-16"
-            />
-          }
-        />
-      ) : (
-        <p className="text-white">Loading weather...</p>
+    <main className="flex flex-col items-center w-full">
+      {loading && <p className="text-muted-foreground">Loading weather…</p>}
+
+      {weather && (
+        <>
+          <HeroCard
+            location={`${name}, ${country}`}
+            date={new Date(weather.time).toLocaleDateString("en-US", {
+              weekday: "long",
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+            temperature={Math.round(weather.temperature_2m)}
+            // pass WeatherIcon or a <Image /> — HeroCard already accepted a React node in your code
+            icon={
+              <WeatherIcon
+                code={weather.weathercode}
+                size={64}
+                alt="Current weather"
+              />
+            }
+          />
+
+          <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
+            <WeatherStats weather={weather} />
+          </div>
+        </>
+      )}
+
+      {/* pass the transformed forecast array directly to your DailyForecast component */}
+      {forecast && (
+        <div className="w-full lg:max-w-4xl mt-6">
+          <DailyForecast forecast={forecast} />
+        </div>
       )}
     </main>
   );
