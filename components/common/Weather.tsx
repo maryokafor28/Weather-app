@@ -4,15 +4,24 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import HeroCard from "@/components/widgets/WeatherCard";
 import WeatherStats from "@/components/common/WeatherStat";
-import DailyForecast from "@/components/widgets/DailyForecastCard"; // expects items with weathercode
-import WeatherIcon from "@/components/widgets/WeatherIcon"; // optional
+import DailyForecast from "@/components/widgets/DailyForecastCard";
+import WeatherIcon from "@/components/widgets/WeatherIcon";
+
 import {
   getWeather,
   type WeatherData,
   type ForecastDayRaw,
+  type HourlyForecastItem,
 } from "@/lib/services";
 
-export default function WeatherPage() {
+type WeatherPageProps = {
+  onData?: (data: {
+    hourlyByDay: Record<string, HourlyForecastItem[]> | null;
+    forecast: ForecastDayRaw[] | null;
+  }) => void;
+};
+
+export default function WeatherPage({ onData }: WeatherPageProps) {
   const searchParams = useSearchParams();
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
@@ -21,6 +30,7 @@ export default function WeatherPage() {
 
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastDayRaw[] | null>(null);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -30,10 +40,13 @@ export default function WeatherPage() {
     setLoading(true);
 
     getWeather(lat, lon)
-      .then(({ current, forecast }) => {
+      .then(({ current, forecast, hourlyByDay }) => {
         if (!mounted) return;
         setWeather(current);
         setForecast(forecast);
+
+        // ✅ send data up so Dashboard can render HourlyForecast
+        onData?.({ hourlyByDay, forecast });
       })
       .catch((err) => {
         console.error("getWeather error:", err);
@@ -43,12 +56,13 @@ export default function WeatherPage() {
     return () => {
       mounted = false;
     };
-  }, [lat, lon]);
+  }, [lat, lon, onData]);
 
   return (
-    <main className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full">
       {loading && <p className="text-muted-foreground">Loading weather…</p>}
 
+      {/* Current Weather Card */}
       {weather && (
         <>
           <HeroCard
@@ -60,7 +74,6 @@ export default function WeatherPage() {
               year: "numeric",
             })}
             temperature={Math.round(weather.temperature_2m)}
-            // pass WeatherIcon or a <Image /> — HeroCard already accepted a React node in your code
             icon={
               <WeatherIcon
                 code={weather.weathercode}
@@ -76,12 +89,12 @@ export default function WeatherPage() {
         </>
       )}
 
-      {/* pass the transformed forecast array directly to your DailyForecast component */}
+      {/* Daily Forecast */}
       {forecast && (
         <div className="w-full lg:max-w-4xl mt-6">
           <DailyForecast forecast={forecast} />
         </div>
       )}
-    </main>
+    </div>
   );
 }

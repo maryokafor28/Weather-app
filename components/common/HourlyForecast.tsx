@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -10,37 +10,26 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import HourlyRow from "@/components/widgets/HourlyRow";
-import WeatherIcon from "@/components/widgets/WeatherIcon";
-import { getWeather, HourlyForecastItem, ForecastDayRaw } from "@/lib/services";
+import WeatherIcon from "@/components/widgets/WeatherIcon"; // ✅ your WeatherIcon
 
-export default function HourlyForecast() {
-  const [selectedDay, setSelectedDay] = useState<string>("");
-  const [days, setDays] = useState<ForecastDayRaw[]>([]);
-  const [hourly, setHourly] = useState<HourlyForecastItem[]>([]);
+// 🔹 Define props
+type HourlyForecastProps = {
+  hourlyByDay: Record<
+    string,
+    { time: string; temperature: number; weathercode: number }[]
+  >;
+  forecastDays: string[]; // list of day names
+};
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { forecast, hourly } = await getWeather("52.52", "13.41"); // Berlin
-        setDays(forecast);
-        setHourly(hourly);
+export default function HourlyForecast({
+  hourlyByDay,
+  forecastDays,
+}: HourlyForecastProps) {
+  const [selectedDay, setSelectedDay] = useState<string>(
+    forecastDays[0] ?? "" // default to first day passed from parent
+  );
 
-        // default: today
-        if (forecast.length > 0) setSelectedDay(forecast[0].day);
-      } catch (err) {
-        console.error("Weather fetch failed:", err);
-      }
-    })();
-  }, []);
-
-  // Filter hourly by selected day
-  const filteredHourly = hourly.filter((h) => {
-    if (!selectedDay) return false;
-    const day = new Date(h.time).toLocaleDateString("en-US", {
-      weekday: "short",
-    });
-    return day === selectedDay;
-  });
+  const hourlyData = selectedDay ? hourlyByDay[selectedDay] ?? [] : [];
 
   return (
     <Card className="w-full md:w-[340px] h-full flex flex-col bg-[var(--background-card)] mt-8 md:mt-0">
@@ -60,9 +49,9 @@ export default function HourlyForecast() {
             sideOffset={8}
             className="w-55 bg-[var(--background-card)] border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)] space-y-1"
           >
-            {days.map((d) => (
-              <SelectItem key={d.day} value={d.day}>
-                {d.day}
+            {forecastDays.map((day) => (
+              <SelectItem key={day} value={day}>
+                {day}
               </SelectItem>
             ))}
           </SelectContent>
@@ -71,17 +60,25 @@ export default function HourlyForecast() {
 
       {/* Scrollable content */}
       <CardContent className="relative max-h-[400px] overflow-y-auto no-scrollbar">
-        {filteredHourly.map((item, i) => (
-          <HourlyRow
-            key={i}
-            icon={<WeatherIcon code={item.weathercode} size={24} />}
-            time={new Date(item.time).toLocaleTimeString("en-US", {
+        {hourlyData.length === 0 ? (
+          <p className="text-center text-muted-foreground">No data available</p>
+        ) : (
+          hourlyData.map((item, i) => {
+            const time = new Date(item.time).toLocaleTimeString("en-US", {
               hour: "numeric",
               hour12: true,
-            })}
-            temperature={item.temperature}
-          />
-        ))}
+            });
+
+            return (
+              <HourlyRow
+                key={i}
+                icon={<WeatherIcon code={item.weathercode} size={24} />}
+                time={time}
+                temperature={item.temperature}
+              />
+            );
+          })
+        )}
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[var(--background-card)] to-transparent" />
       </CardContent>
     </Card>

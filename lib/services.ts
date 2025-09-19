@@ -26,6 +26,7 @@ export type HourlyForecastItem = {
 export type WeatherFull = {
   current: WeatherData;
   forecast: ForecastDayRaw[];
+  hourly: { time: string; temperature: number; weathercode: number }[]; // ✅ added
 
   hourlyByDay: Record<string, HourlyForecastItem[]>; // e.g. { "Monday": [...], "Tuesday": [...] }
 };
@@ -82,5 +83,5 @@ export async function getWeather(
     hourlyByDay[dayKey].push(it);
   });
 
-  return { current, forecast, hourlyByDay };
+  return { current, forecast, hourlyByDay, hourly };
 }
