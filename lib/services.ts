@@ -1,5 +1,3 @@
-// lib/weather.ts
-
 export type WeatherData = {
   temperature_2m: number;
   apparent_temperature: number;
@@ -11,14 +9,14 @@ export type WeatherData = {
 };
 
 export type ForecastDayRaw = {
-  day: string; // "Mon", "Tue", ...
-  weathercode: number; // open-meteo code
+  day: string;
+  weathercode: number;
   minTemp: number;
   maxTemp: number;
 };
 
 export type HourlyForecastItem = {
-  time: string; // ISO string like "2025-09-18T14:00"
+  time: string;
   temperature: number;
   weathercode: number;
 };

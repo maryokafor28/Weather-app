@@ -6,6 +6,7 @@ import HeroCard from "@/components/widgets/WeatherCard";
 import WeatherStats from "@/components/common/WeatherStat";
 import DailyForecast from "@/components/widgets/DailyForecastCard";
 import WeatherIcon from "@/components/widgets/WeatherIcon";
+import { useUnit } from "@/context/UnitContext";
 
 import {
   getWeather,
@@ -32,6 +33,11 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
   const [forecast, setForecast] = useState<ForecastDayRaw[] | null>(null);
 
   const [loading, setLoading] = useState(false);
+  const { unit } = useUnit(); // ✅ get unit (metric/imperial)
+
+  // 🔹 Conversion helpers
+  const convertTemp = (tempC: number) =>
+    unit === "metric" ? Math.round(tempC) : Math.round((tempC * 9) / 5 + 32);
 
   useEffect(() => {
     if (!lat || !lon) return;
@@ -73,7 +79,7 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
               day: "numeric",
               year: "numeric",
             })}
-            temperature={Math.round(weather.temperature_2m)}
+            temperature={convertTemp(weather.temperature_2m)} // ✅ converted
             icon={
               <WeatherIcon
                 code={weather.weathercode}

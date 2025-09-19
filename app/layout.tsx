@@ -1,4 +1,6 @@
 import "./globals.css";
+import { UnitProvider } from "@/context/UnitContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -6,7 +8,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <UnitProvider>{children}</UnitProvider>
+      </body>
     </html>
   );
 }

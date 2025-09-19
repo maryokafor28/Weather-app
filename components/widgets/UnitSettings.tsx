@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Logo from "@/components/widgets/logo";
 import Image from "next/image";
 import {
@@ -11,28 +10,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import { useUnit } from "@/context/UnitContext";
 
-type UnitSystem = "imperial" | "metric";
-
-export default function UnitSettings({
-  selected = "metric",
-  onUnitChange,
-}: {
-  selected?: UnitSystem;
-  onUnitChange?: (u: UnitSystem) => void;
-}) {
-  const [unit, setUnit] = useState<UnitSystem>(selected);
+export default function UnitSettings() {
+  const { unit, setUnit } = useUnit();
 
   const toggleSystem = () => {
     const newUnit = unit === "metric" ? "imperial" : "metric";
     setUnit(newUnit);
-    onUnitChange?.(newUnit);
   };
 
   // helper to render row with optional checkmark
   const renderItem = (label: string, active: boolean) => (
     <DropdownMenuItem
-      disabled
+      onSelect={(e) => e.preventDefault()}
       className={`flex items-center justify-between cursor-default rounded-md px-3 py-2 transition
         ${
           active

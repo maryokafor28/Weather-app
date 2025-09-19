@@ -2,6 +2,7 @@
 
 import { CardContent } from "@/components/ui/card";
 import WeatherIcon from "@/components/widgets/WeatherIcon"; // reuse the icon mapping
+import { useUnit } from "@/context/UnitContext"; // ✅ import unit context
 
 type ForecastDay = {
   day: string;
@@ -15,6 +16,10 @@ type DailyForecastProps = {
 };
 
 export default function DailyForecast({ forecast }: DailyForecastProps) {
+  const { unit } = useUnit();
+  const convertTemp = (tempC: number) =>
+    unit === "metric" ? Math.round(tempC) : Math.round((tempC * 9) / 5 + 32);
+
   return (
     <section className="w-full mx-auto">
       <div className="text-muted-foreground text-sm py-2">Daily forecast</div>
@@ -45,8 +50,10 @@ export default function DailyForecast({ forecast }: DailyForecastProps) {
 
             {/* Temps */}
             <div className="flex justify-between gap-8 text-xs">
-              <span>{item.minTemp}°</span>
-              <span className="font-semibold">{item.maxTemp}°</span>
+              <span>{convertTemp(item.minTemp)}°</span>
+              <span className="font-semibold">
+                {convertTemp(item.maxTemp)}°
+              </span>
             </div>
           </CardContent>
         ))}

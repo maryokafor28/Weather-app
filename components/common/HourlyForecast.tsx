@@ -10,7 +10,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import HourlyRow from "@/components/widgets/HourlyRow";
-import WeatherIcon from "@/components/widgets/WeatherIcon"; // ✅ your WeatherIcon
+import WeatherIcon from "@/components/widgets/WeatherIcon";
+import { useUnit } from "@/context/UnitContext"; // ✅ import
 
 // 🔹 Define props
 type HourlyForecastProps = {
@@ -28,6 +29,11 @@ export default function HourlyForecast({
   const [selectedDay, setSelectedDay] = useState<string>(
     forecastDays[0] ?? "" // default to first day passed from parent
   );
+  const { unit } = useUnit(); // ✅ read unit (metric/imperial)
+
+  // 🔹 Celsius → Fahrenheit if needed
+  const convertTemp = (tempC: number) =>
+    unit === "metric" ? Math.round(tempC) : Math.round((tempC * 9) / 5 + 32);
 
   const hourlyData = selectedDay ? hourlyByDay[selectedDay] ?? [] : [];
 
@@ -74,7 +80,7 @@ export default function HourlyForecast({
                 key={i}
                 icon={<WeatherIcon code={item.weathercode} size={24} />}
                 time={time}
-                temperature={item.temperature}
+                temperature={convertTemp(item.temperature)} // ✅ converted
               />
             );
           })
