@@ -31,11 +31,11 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
 
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastDayRaw[] | null>(null);
-
   const [loading, setLoading] = useState(false);
-  const { unit } = useUnit(); // ✅ get unit (metric/imperial)
 
-  // 🔹 Conversion helpers
+  const { unit } = useUnit();
+
+  // 🔹 Celsius → Fahrenheit conversion
   const convertTemp = (tempC: number) =>
     unit === "metric" ? Math.round(tempC) : Math.round((tempC * 9) / 5 + 32);
 
@@ -50,8 +50,6 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
         if (!mounted) return;
         setWeather(current);
         setForecast(forecast);
-
-        // ✅ send data up so Dashboard can render HourlyForecast
         onData?.({ hourlyByDay, forecast });
       })
       .catch((err) => {
@@ -66,41 +64,45 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
 
   return (
     <div className="flex flex-col items-center w-full">
-      {loading && <p className="text-muted-foreground">Loading weather…</p>}
-
       {/* Current Weather Card */}
-      {weather && (
-        <>
-          <HeroCard
-            location={`${name}, ${country}`}
-            date={new Date(weather.time).toLocaleDateString("en-US", {
-              weekday: "long",
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-            temperature={convertTemp(weather.temperature_2m)} // ✅ converted
-            icon={
-              <WeatherIcon
-                code={weather.weathercode}
-                size={64}
-                alt="Current weather"
-              />
-            }
-          />
+      <HeroCard
+        skeleton={loading}
+        location={loading ? "-" : `${name}, ${country}`}
+        date={
+          loading || !weather
+            ? "-"
+            : new Date(weather.time).toLocaleDateString("en-US", {
+                weekday: "long",
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })
+        }
+        temperature={
+          loading || !weather ? 0 : convertTemp(weather.temperature_2m)
+        }
+        icon={
+          loading || !weather ? (
+            <div className="w-16 h-16 rounded-full bg-[var(--muted)]/20 animate-pulse" />
+          ) : (
+            <WeatherIcon
+              code={weather.weathercode}
+              size={64}
+              alt="Current weather"
+            />
+          )
+        }
+      />
 
-          <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
-            <WeatherStats weather={weather} />
-          </div>
-        </>
-      )}
+      {/* Weather Stats */}
+      <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
+        <WeatherStats weather={weather ?? undefined} loading={loading} />
+      </div>
 
       {/* Daily Forecast */}
-      {forecast && (
-        <div className="w-full lg:max-w-4xl mt-6">
-          <DailyForecast forecast={forecast} />
-        </div>
-      )}
+      <div className="w-full lg:max-w-4xl mt-6">
+        <DailyForecast forecast={forecast ?? []} loading={loading} />
+      </div>
     </div>
   );
 }
