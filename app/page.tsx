@@ -13,6 +13,9 @@ export default function Dashboard() {
     forecast: ForecastDayRaw[] | null;
   }>({ hourlyByDay: null, forecast: null });
 
+  // ✅ Determine if data is still loading
+  const isLoading = !hourlyData.hourlyByDay || !hourlyData.forecast;
+
   return (
     <div className="min-h-screen px-6 py-6">
       {/* Topbar */}
@@ -32,12 +35,12 @@ export default function Dashboard() {
 
         {/* Right column */}
         <div className="w-full lg:max-w-sm">
-          {hourlyData.hourlyByDay && hourlyData.forecast && (
-            <HourlyForecast
-              hourlyByDay={hourlyData.hourlyByDay}
-              forecastDays={hourlyData.forecast.map((f) => f.day)}
-            />
-          )}
+          {/* ✅ Always render HourlyForecast, but pass loading state */}
+          <HourlyForecast
+            hourlyByDay={hourlyData.hourlyByDay ?? {}}
+            forecastDays={hourlyData.forecast?.map((f) => f.day) ?? []}
+            isLoading={isLoading}
+          />
         </div>
       </div>
     </div>
