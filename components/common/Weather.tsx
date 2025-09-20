@@ -57,6 +57,7 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
       })
       .catch((err) => {
         console.error("getWeather error:", err);
+        if (!mounted) return;
         setError(true); // show error screen
         onError?.(); // notify Dashboard
         setLoading(false); // 🔹 stop skeleton immediately
@@ -69,10 +70,20 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
   };
 
   useEffect(() => {
-    fetchWeather();
+    // Only fetch if we have valid lat/lon
+    if (lat && lon) {
+      fetchWeather();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lat, lon]);
 
+  // 🔹 If no search params and no auto-location feature, don't render anything
+  // This allows for future auto-location detection while preventing empty renders from search
+  const hasLocationData = lat && lon;
+
+  if (!hasLocationData) {
+    return null;
+  }
   // 🔹 If error, show the error state instead of cards
   if (error) {
     return <ErrorState onRetry={fetchWeather} />;
