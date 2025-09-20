@@ -24,7 +24,7 @@
   scrollbar-width: none; /* Firefox */
 }
 
-@theme inline {
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
