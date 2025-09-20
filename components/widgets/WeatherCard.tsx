@@ -72,13 +72,15 @@ export default function WeatherCard({
           <>
             <div className="flex flex-col items-center space-y-4">
               {/* Loading spinner */}
-              <Image
-                src="/icon-loading.svg"
-                alt="Loading"
-                width={40}
-                height={40}
-                className="animate-spin"
-              />
+              <div className="w-[40px] h-[20px] overflow-hidden">
+                <Image
+                  src="/images/icon-loading.svg"
+                  alt="Loading"
+                  width={40}
+                  height={40}
+                  className="animate-spin"
+                />
+              </div>
               {/* Loading text */}
               <div className="text-foreground text-lg font-medium">
                 Loading...

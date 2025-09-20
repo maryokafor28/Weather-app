@@ -45,19 +45,7 @@ export default function DailyForecast({
                   w-full h-[180px] md:h-[140px]
                   p-4
                 "
-              >
-                {/* Day label placeholder */}
-                <div className="w-12 h-3 bg-[var(--muted)]/20 rounded animate-pulse" />
-
-                {/* Icon placeholder */}
-                <div className="w-10 h-10 bg-[var(--muted)]/20 rounded-full animate-pulse" />
-
-                {/* Temps placeholders */}
-                <div className="flex justify-between gap-6 w-full mt-3">
-                  <div className="w-8 h-3 bg-[var(--muted)]/20 rounded animate-pulse" />
-                  <div className="w-8 h-3 bg-[var(--muted)]/20 rounded animate-pulse" />
-                </div>
-              </CardContent>
+              ></CardContent>
             ))
           : // Real data
             forecast.map((item, i) => (

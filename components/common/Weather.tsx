@@ -7,6 +7,7 @@ import WeatherStats from "@/components/common/WeatherStat";
 import DailyForecast from "@/components/widgets/DailyForecastCard";
 import WeatherIcon from "@/components/widgets/WeatherIcon";
 import { useUnit } from "@/context/UnitContext";
+import ErrorState from "@/components/common/ErrorState"; // ✅ import
 
 import {
   getWeather,
@@ -20,9 +21,10 @@ type WeatherPageProps = {
     hourlyByDay: Record<string, HourlyForecastItem[]> | null;
     forecast: ForecastDayRaw[] | null;
   }) => void;
+  onError?: () => void;
 };
 
-export default function WeatherPage({ onData }: WeatherPageProps) {
+export default function WeatherPage({ onData, onError }: WeatherPageProps) {
   const searchParams = useSearchParams();
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
@@ -32,18 +34,19 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastDayRaw[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false); // 🔹 new error state
 
   const { unit } = useUnit();
 
-  // 🔹 Celsius → Fahrenheit conversion
   const convertTemp = (tempC: number) =>
     unit === "metric" ? Math.round(tempC) : Math.round((tempC * 9) / 5 + 32);
 
-  useEffect(() => {
+  const fetchWeather = () => {
     if (!lat || !lon) return;
 
     let mounted = true;
     setLoading(true);
+    setError(false);
 
     getWeather(lat, lon)
       .then(({ current, forecast, hourlyByDay }) => {
@@ -54,17 +57,29 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
       })
       .catch((err) => {
         console.error("getWeather error:", err);
+        setError(true); // show error screen
+        onError?.(); // notify Dashboard
+        setLoading(false); // 🔹 stop skeleton immediately
       })
       .finally(() => mounted && setLoading(false));
 
     return () => {
       mounted = false;
     };
-  }, [lat, lon, onData]);
+  };
+
+  useEffect(() => {
+    fetchWeather();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lat, lon]);
+
+  // 🔹 If error, show the error state instead of cards
+  if (error) {
+    return <ErrorState onRetry={fetchWeather} />;
+  }
 
   return (
     <div className="flex flex-col items-center w-full">
-      {/* Current Weather Card */}
       <HeroCard
         skeleton={loading}
         location={loading ? "-" : `${name}, ${country}`}
@@ -93,13 +108,11 @@ export default function WeatherPage({ onData }: WeatherPageProps) {
           )
         }
       />
-
-      {/* Weather Stats */}
+      {/* weather stats */}
       <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
         <WeatherStats weather={weather ?? undefined} loading={loading} />
       </div>
-
-      {/* Daily Forecast */}
+      {/* dailyforecast */}
       <div className="w-full lg:max-w-4xl mt-6">
         <DailyForecast forecast={forecast ?? []} loading={loading} />
       </div>

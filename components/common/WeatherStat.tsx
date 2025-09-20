@@ -25,10 +25,10 @@ export default function WeatherStats({ weather, loading }: WeatherStatsProps) {
   if (loading) {
     // Skeleton layout with actual labels and dash values
     const skeletonData = [
-      { label: "Feels Like", unit: unit === "metric" ? "°C" : "°F" },
-      { label: "Humidity", unit: "%" },
-      { label: "Wind", unit: unit === "metric" ? "km/h" : "mph" },
-      { label: "Precipitation", unit: unit === "metric" ? "mm" : "in" },
+      { label: "Feels Like" },
+      { label: "Humidity" },
+      { label: "Wind" },
+      { label: "Precipitation" },
     ];
 
     return (
@@ -45,9 +45,6 @@ export default function WeatherStats({ weather, loading }: WeatherStatsProps) {
               {/* Dash value with unit */}
               <p className="text-3xl font-semibold text-muted leading-relaxed">
                 —
-                <span className="text-base font-normal ml-1 leading-none">
-                  {item.unit}
-                </span>
               </p>
             </CardContent>
           </Card>
