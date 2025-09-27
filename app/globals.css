@@ -24,7 +24,8 @@
   scrollbar-width: none; /* Firefox */
 }
 
-:root {
+/* stylelint-disable-next-line */
+@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
