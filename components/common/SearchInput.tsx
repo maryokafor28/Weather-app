@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation"; // 👈 for navigation
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import VoiceSearch from "@/components/features/VoiceSearch";
 import Image from "next/image";
 
 type CityResult = {
@@ -117,10 +118,12 @@ export default function Search() {
           )}
         </div>
 
+        <VoiceSearch onVoiceResult={(text) => handleInput(text)} />
+
         <Button
           onClick={handleSearch}
           variant={"default"}
-          className="focus:outline-none focus:ring-2 focus:ring-blue-700 h-10"
+          className="focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] h-10 cursor-pointer"
         >
           Search
         </Button>
