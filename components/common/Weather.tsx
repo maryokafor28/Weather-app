@@ -7,7 +7,7 @@ import WeatherStats from "@/components/common/WeatherStat";
 import DailyForecast from "@/components/widgets/DailyForecastCard";
 import WeatherIcon from "@/components/widgets/WeatherIcon";
 import { useUnit } from "@/context/UnitContext";
-import ErrorState from "@/components/common/ErrorState"; // ✅ import
+import ErrorState from "@/components/common/ErrorState";
 
 import {
   getWeather,
@@ -34,7 +34,7 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [forecast, setForecast] = useState<ForecastDayRaw[] | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false); // 🔹 new error state
+  const [error, setError] = useState(false);
 
   const { unit } = useUnit();
 
