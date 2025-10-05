@@ -5,7 +5,8 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { Button } from "../ui/button";
-import { Mic } from "lucide-react"; // 🎙️ mic icon
+import { Mic } from "lucide-react";
+import { useTheme } from "next-themes";
 
 interface VoiceSearchProps {
   onVoiceResult: (text: string) => void;
@@ -18,6 +19,7 @@ export default function VoiceSearch({ onVoiceResult }: VoiceSearchProps) {
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (transcript) {
@@ -57,6 +59,9 @@ export default function VoiceSearch({ onVoiceResult }: VoiceSearchProps) {
         className={`text-white transition-transform duration-300 ${
           listening ? "scale-125 animate-bounce-slow" : "scale-100"
         }`}
+        style={{
+          filter: theme === "light" ? "brightness(0) saturate(100%)" : "none",
+        }}
       />
     </Button>
   );

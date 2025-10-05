@@ -1,5 +1,6 @@
 import "./globals.css";
 import { UnitProvider } from "@/context/UnitContext";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -7,9 +8,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <UnitProvider>{children}</UnitProvider>
+        <UnitProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="navy"
+            enableSystem={false}
+          >
+            {children}
+          </ThemeProvider>
+        </UnitProvider>
       </body>
     </html>
   );

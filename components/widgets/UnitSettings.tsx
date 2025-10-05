@@ -2,6 +2,7 @@
 
 import Logo from "@/components/widgets/logo";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -14,13 +15,17 @@ import { useUnit } from "@/context/UnitContext";
 
 export default function UnitSettings() {
   const { unit, setUnit } = useUnit();
+  const { theme } = useTheme();
 
   const toggleSystem = () => {
     const newUnit = unit === "metric" ? "imperial" : "metric";
     setUnit(newUnit);
   };
 
-  // helper to render row with optional checkmark
+  // Icon filter for light theme
+  const iconFilter =
+    theme === "light" ? "brightness(0) saturate(100%)" : "none";
+
   const renderItem = (label: string, active: boolean) => (
     <DropdownMenuItem
       onSelect={(e) => e.preventDefault()}
@@ -38,6 +43,12 @@ export default function UnitSettings() {
           alt="checked"
           width={16}
           height={16}
+          style={{
+            filter:
+              theme === "light"
+                ? "brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(220deg) brightness(98%) contrast(92%)"
+                : "none",
+          }}
         />
       )}
     </DropdownMenuItem>
@@ -55,6 +66,7 @@ export default function UnitSettings() {
               alt="units"
               width={16}
               height={16}
+              style={{ filter: iconFilter }}
             />
             <span className="text-xs sm:text-sm">Units</span>
             <Image
@@ -62,6 +74,7 @@ export default function UnitSettings() {
               alt="dropdown"
               width={15}
               height={20}
+              style={{ filter: iconFilter }}
             />
           </button>
         </DropdownMenuTrigger>
@@ -71,7 +84,6 @@ export default function UnitSettings() {
           sideOffset={8}
           className="w-48 sm:w-55 rounded-xl border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)] space-y-1 bg-[var(--background-card)]"
         >
-          {/* Toggle Button - prevent auto close */}
           <DropdownMenuItem
             onClick={(e) => {
               e.preventDefault();
@@ -87,7 +99,6 @@ export default function UnitSettings() {
             </span>
           </DropdownMenuItem>
 
-          {/* Temperature */}
           <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
             Temperature
           </DropdownMenuLabel>
@@ -95,7 +106,6 @@ export default function UnitSettings() {
           {renderItem("Fahrenheit (°F)", unit === "imperial")}
           <DropdownMenuSeparator className="h-[1px] bg-muted/15 mx-1" />
 
-          {/* Wind Speed */}
           <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
             Wind Speed
           </DropdownMenuLabel>
@@ -103,7 +113,6 @@ export default function UnitSettings() {
           {renderItem("mph", unit === "imperial")}
           <DropdownMenuSeparator className="h-[1px] bg-muted/15 mx-1 my-2" />
 
-          {/* Precipitation */}
           <DropdownMenuLabel className="text-xs text-muted border-0 shadow-xl">
             Precipitation
           </DropdownMenuLabel>

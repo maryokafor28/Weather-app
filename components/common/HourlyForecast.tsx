@@ -12,6 +12,7 @@ import {
 import HourlyRow from "@/components/widgets/HourlyRow";
 import WeatherIcon from "@/components/widgets/WeatherIcon";
 import { useUnit } from "@/context/UnitContext";
+import { useTheme } from "next-themes";
 
 type HourlyForecastProps = {
   hourlyByDay: Record<
@@ -28,6 +29,8 @@ export default function HourlyForecast({
   loading = false,
 }: HourlyForecastProps) {
   const { unit } = useUnit();
+  const { theme } = useTheme();
+
   const [selectedDay, setSelectedDay] = useState<string>("");
 
   // auto-select today when forecastDays changes
@@ -54,16 +57,33 @@ export default function HourlyForecast({
           onValueChange={setSelectedDay}
           disabled={loading}
         >
-          <SelectTrigger className="w-[140px] bg-[#3c3a5e] rounded-md px-4 py-2 shadow-md cursor-pointer hover:opacity-90">
+          <SelectTrigger
+            className="w-[140px] bg-[#3c3a5e] rounded-md px-4 py-2 shadow-md cursor-pointer hover:opacity-90"
+            style={{
+              background: theme === "light" ? "white" : "#3c3a5e",
+              color: theme === "light" ? "black" : "white",
+            }}
+          >
             <SelectValue placeholder="-" /> {/* show “-” while loading */}
           </SelectTrigger>
           <SelectContent
             align="end"
             sideOffset={8}
             className="w-55 bg-[var(--background-card)] border border-[var(--muted)]/15 backdrop-blur-md shadow-[0_8px_30px_hsl(240,6%,70%/0.3)] space-y-1"
+            style={{
+              background:
+                theme === "light" ? "white" : "var(--background-card)",
+              color: theme === "light" ? "black" : "white",
+            }}
           >
             {forecastDays.map((day) => (
-              <SelectItem key={day} value={day}>
+              <SelectItem
+                key={day}
+                value={day}
+                style={{
+                  color: theme === "light" ? "black" : "white",
+                }}
+              >
                 {day}
               </SelectItem>
             ))}
