@@ -118,6 +118,7 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
             />
           )
         }
+        weatherCode={loading || !weather ? 800 : weather.weathercode}
       />
       {/* weather stats */}
       <div className="flex-1 space-y-2 w-full lg:max-w-3xl">

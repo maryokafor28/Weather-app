@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import AnimatedWeatherBackground from "@/components/widgets/AnimatedWeatherBg";
 
 type HeroCardProps = {
   location: string;
   date: string;
   temperature: number;
   icon: React.ReactNode;
+  weatherCode: number;
   backgroundImage?: string;
   className?: string;
   skeleton?: boolean;
@@ -18,6 +20,7 @@ export default function WeatherCard({
   date,
   temperature,
   icon,
+  weatherCode,
   className,
   skeleton,
 }: HeroCardProps) {
@@ -35,27 +38,8 @@ export default function WeatherCard({
         <div className="absolute inset-0 bg-[var(--background-card)]" />
       ) : (
         // Loaded state: background images
-        <div className="absolute inset-0">
-          {/* Mobile image */}
-          <Image
-            src="/images/bg-today-small.svg"
-            alt="Weather background small"
-            fill
-            priority
-            className="object-cover sm:hidden"
-            sizes="100vw"
-          />
-
-          {/* Desktop image */}
-          <Image
-            src="/images/bg-today-large.svg"
-            alt="Weather background large"
-            fill
-            priority
-            className="object-cover object-center hidden sm:block"
-            sizes="100vw"
-          />
-        </div>
+        // Loaded state: animated weather background
+        <AnimatedWeatherBackground weatherCode={weatherCode} />
       )}
 
       {/* Content */}
