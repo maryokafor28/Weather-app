@@ -1,6 +1,7 @@
 import "./globals.css";
 import { UnitProvider } from "@/context/UnitContext";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import { AutoThemeProvider } from "@/context/AutoTheme";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,7 @@ export default function RootLayout({
             defaultTheme="navy"
             enableSystem={false}
           >
-            {children}
+            <AutoThemeProvider>{children}</AutoThemeProvider>
           </ThemeProvider>
         </UnitProvider>
       </body>

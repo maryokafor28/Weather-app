@@ -3,12 +3,13 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes";
 
-export function ThemeProvider({ children }: ThemeProviderProps) {
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="navy"
+      defaultTheme="navy" // 👈 your app’s default
       enableSystem={false}
+      {...props}
     >
       {children}
     </NextThemesProvider>
