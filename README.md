@@ -1,9 +1,9 @@
-# 🌦️ Weather App
+#  Weather App
 
 This is a responsive and animated Weather App built as a solution to the [Frontend Mentor - Weather App Challenge](https://www.frontendmentor.io/challenges/weather-app-K1FhddVm49).  
 It allows users to search for weather conditions in any city and view detailed forecasts with engaging animated backgrounds, real-time geolocation detection, and voice-enabled search.
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Overview](#overview)
   - [The Challenge](#the-challenge)
@@ -140,3 +140,13 @@ npm install
 # Run the development server
 npm run dev
 ```
+ Author
+
+Your Name – Amadi Mary
+
+Frontend Mentor – @maryokafor28
+
+
+Twitter – https://x.com/OkaforVincy?t=D46RzrmSjNyJMF-pWAXwQg&s=09
+
+
