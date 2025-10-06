@@ -128,7 +128,6 @@ export default function AnimatedWeatherBackground({
         }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
       />
-
       {/* Sunny - Floating Sun Rays */}
       {animationType === "sunny" && (
         <div className="absolute inset-0">
@@ -158,7 +157,6 @@ export default function AnimatedWeatherBackground({
           ))}
         </div>
       )}
-
       {/* Cloudy - Drifting Clouds */}
       {animationType === "cloudy" && (
         <div className="absolute inset-0">
@@ -189,7 +187,6 @@ export default function AnimatedWeatherBackground({
           ))}
         </div>
       )}
-
       {/* Overcast - Dense Cloud Cover */}
       {animationType === "overcast" && (
         <div className="absolute inset-0">
@@ -225,7 +222,6 @@ export default function AnimatedWeatherBackground({
           />
         </div>
       )}
-
       {/* Drizzle - Light Rain */}
       {animationType === "drizzle" && (
         <div className="absolute inset-0">
@@ -254,7 +250,6 @@ export default function AnimatedWeatherBackground({
           />
         </div>
       )}
-
       {/* Rain - Falling Raindrops */}
       {animationType === "rain" && (
         <div className="absolute inset-0">
@@ -283,7 +278,6 @@ export default function AnimatedWeatherBackground({
           />
         </div>
       )}
-
       {/* Storm - Heavy Rain + Lightning */}
       {animationType === "storm" && (
         <div className="absolute inset-0">
@@ -324,7 +318,6 @@ export default function AnimatedWeatherBackground({
           />
         </div>
       )}
-
       {/* Snow - Falling Snowflakes */}
       {animationType === "snow" && (
         <div className="absolute inset-0">
@@ -354,7 +347,6 @@ export default function AnimatedWeatherBackground({
           ))}
         </div>
       )}
-
       {/* Fog - Horizontal Drifting Layers */}
       {animationType === "fog" && (
         <div className="absolute inset-0">

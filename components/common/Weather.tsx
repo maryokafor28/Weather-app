@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import HeroCard from "@/components/widgets/WeatherCard";
 import WeatherStats from "@/components/common/WeatherStat";
 import DailyForecast from "@/components/widgets/DailyForecastCard";
 import WeatherIcon from "@/components/widgets/WeatherIcon";
 import { useUnit } from "@/context/UnitContext";
 import ErrorState from "@/components/common/ErrorState";
+import { useGeolocation } from "@/hooks/geoLocation";
 
 import {
   getWeather,
@@ -26,6 +27,11 @@ type WeatherPageProps = {
 
 export default function WeatherPage({ onData, onError }: WeatherPageProps) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Get geolocation data
+  const geolocation = useGeolocation();
+
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
   const name = searchParams.get("name");
@@ -58,9 +64,9 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
       .catch((err) => {
         console.error("getWeather error:", err);
         if (!mounted) return;
-        setError(true); // show error screen
-        onError?.(); // notify Dashboard
-        setLoading(false); // 🔹 stop skeleton immediately
+        setError(true);
+        onError?.();
+        setLoading(false);
       })
       .finally(() => mounted && setLoading(false));
 
@@ -69,22 +75,64 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
     };
   };
 
+  // Auto-populate search params with geolocation if no params exist
   useEffect(() => {
-    // Only fetch if we have valid lat/lon
+    if (
+      !lat &&
+      !lon &&
+      geolocation.lat &&
+      geolocation.lon &&
+      !geolocation.loading
+    ) {
+      const params = new URLSearchParams();
+      params.set("lat", geolocation.lat);
+      params.set("lon", geolocation.lon);
+      if (geolocation.city) params.set("name", geolocation.city);
+      if (geolocation.country) params.set("country", geolocation.country);
+
+      router.replace(`?${params.toString()}`);
+    }
+  }, [lat, lon, geolocation, router]);
+
+  useEffect(() => {
     if (lat && lon) {
       fetchWeather();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lat, lon]);
 
-  // 🔹 If no search params and no auto-location feature, don't render anything
-  // This allows for future auto-location detection while preventing empty renders from search
   const hasLocationData = lat && lon;
+
+  // Show loading state while geolocation is loading
+  if (!hasLocationData && geolocation.loading) {
+    return (
+      <div className="flex flex-col items-center w-full">
+        <HeroCard
+          skeleton={true}
+          location="-"
+          date="-"
+          temperature={0}
+          icon={
+            <div className="w-16 h-16 rounded-full bg-[var(--muted)]/20 animate-pulse" />
+          }
+          weatherCode={800}
+        />
+        <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
+          <WeatherStats loading={true} />
+        </div>
+      </div>
+    );
+  }
+
+  // Show geolocation error if it failed
+  if (!hasLocationData && geolocation.error) {
+    return <ErrorState onRetry={() => window.location.reload()} />;
+  }
 
   if (!hasLocationData) {
     return null;
   }
-  // 🔹 If error, show the error state instead of cards
+
   if (error) {
     return <ErrorState onRetry={fetchWeather} />;
   }
@@ -120,11 +168,9 @@ export default function WeatherPage({ onData, onError }: WeatherPageProps) {
         }
         weatherCode={loading || !weather ? 800 : weather.weathercode}
       />
-      {/* weather stats */}
       <div className="flex-1 space-y-2 w-full lg:max-w-3xl">
         <WeatherStats weather={weather ?? undefined} loading={loading} />
       </div>
-      {/* dailyforecast */}
       <div className="w-full lg:max-w-4xl mt-6">
         <DailyForecast forecast={forecast ?? []} loading={loading} />
       </div>
